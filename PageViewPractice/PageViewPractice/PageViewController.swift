@@ -66,41 +66,34 @@ class PageViewController: UIPageViewController {
 extension PageViewController: UIPageViewControllerDataSource {
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
+        
         guard let pageIndex = pages.firstIndex(of: viewController) else {
             return nil
         }
         
         let previousIndex = pageIndex - 1
         
-        // left most page
-        guard previousIndex >= 0 else {
-            return pages.last
-        }
-        
-        // right most page
-        guard pages.count > previousIndex else {
-            return nil
-        }
+        // fisrt index or invalid index
+        guard previousIndex >= 0,
+                pages.count > previousIndex
+        else { return nil }
         
         return pages[previousIndex]
         
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
+        
         guard let pageIndex = pages.firstIndex(of: viewController) else {
             return nil
         }
         
         let nextIndex = pageIndex + 1
         
-        //
-        guard nextIndex < pages.count else {
-            return pages.first
-        }
-        
-        guard nextIndex >= 0 else {
-            return nil
-        }
+        // last index or invalid index
+        guard nextIndex < pages.count,
+              nextIndex >= 0
+        else { return nil }
         
         return pages[nextIndex]
     }
@@ -113,7 +106,6 @@ extension PageViewController: UIPageViewControllerDataSource {
         guard let firstPage = viewControllers?.first,
               let firstPageIndex = pages.firstIndex(of: firstPage)
         else { return 0 }
-        print(firstPageIndex)
         return firstPageIndex
     }
 }

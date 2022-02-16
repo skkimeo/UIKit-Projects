@@ -11,6 +11,7 @@ class PageMainViewController: UIViewController {
     @IBOutlet private weak var mainView: UIView!
     
     private var pageViewController: UIPageViewController!
+    private var pages = [PageContentViewController]()
     private var pageImages: [String]!
     private var pageColors: [UIColor]!
     private var currentIndex: Int = 0
@@ -25,6 +26,10 @@ class PageMainViewController: UIViewController {
         self.pageViewController.dataSource = self
         self.pageViewController.delegate = self
         
+        self.pages.append(pageInstance(name: "before"))
+        self.pages.append(pageInstance(name: "center"))
+        self.pages.append(pageInstance(name: "after"))
+
         let startViewController = self.viewController(at: choosenIndex)
         let viewControllers = NSArray(object: startViewController)
         
@@ -73,18 +78,53 @@ class PageMainViewController: UIViewController {
             constant: 0))
     }
     
+    private func pageInstance(name: String) -> PageContentViewController {
+        UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: name) as! PageContentViewController
+    }
+    
     /// updates the contents of the resuable view controller for the given index
     /// and then returns the reusable view controller
     func viewController(at index: Int) -> PageContentViewController {
-        guard let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PageContentViewController") as? PageContentViewController
-        else {
-            return PageContentViewController()
-        }
+//        guard let viewController = UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: "PageContentViewController") as? PageContentViewController
+//        else {
+//            return PageContentViewController()
+//        }
+        print(#function)
+        let viewController = pages[1]
         
         viewController.index = index
         viewController.imageString = self.pageImages[index]
-        viewController.color = self.pageColors[index]
+        viewController.color = .systemIndigo
+
+        return viewController
+//        contentController.index = index
+//        contentController.imageString = self.pageImages[index]
+////        contentController.color = .systemIndigo
+//
+//        return contentController
+    }
+    
+    func afterViewController(at index: Int) -> PageContentViewController {
+
+        print(#function)
+        let viewController = pages[2]
         
+        viewController.index = index
+        viewController.imageString = self.pageImages[index]
+        viewController.color = .systemOrange
+
+        return viewController
+    }
+    
+    func beforeViewController(at index: Int) -> PageContentViewController {
+
+        print(#function)
+        let viewController = pages[0]
+        
+        viewController.index = index
+        viewController.imageString = self.pageImages[index]
+        viewController.color = .systemBrown
+
         return viewController
     }
 }
@@ -98,7 +138,7 @@ extension PageMainViewController: UIPageViewControllerDataSource {
             return nil
         }
         
-        return self.viewController(at: index - 1)
+        return beforeViewController(at: index - 1)
     }
     
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
@@ -109,7 +149,7 @@ extension PageMainViewController: UIPageViewControllerDataSource {
             return nil
         }
         
-        return self.viewController(at: index + 1)
+        return afterViewController(at: index + 1)
     }
 }
 
@@ -121,6 +161,8 @@ extension PageMainViewController: UIPageViewControllerDelegate {
             if let currentViewController = pageViewController.viewControllers![0] as? PageContentViewController {
                 currentIndex = currentViewController.index
             }
+            print(#function)
+            print(pageViewController.viewControllers)
         }
     }
 }

@@ -29,7 +29,7 @@
         <!--Page Content View Controller-->
         <scene sceneID="dlx-i8-cJC">
             <objects>
-                <viewController restorationIdentifier="PageContentViewController" storyboardIdentifier="PageContentViewController" id="AuO-hE-ORo" customClass="PageContentViewController" customModule="ReusablePagingView" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="center" useStoryboardIdentifierAsRestorationIdentifier="YES" id="AuO-hE-ORo" customClass="PageContentViewController" customModule="ReusablePagingView" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="dpS-q1-4Xo">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -62,6 +62,64 @@
                 <placeholder placeholderIdentifier="IBFirstResponder" id="1pb-3B-eRU" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
             </objects>
             <point key="canvasLocation" x="1487" y="80"/>
+        </scene>
+        <!--Page Content View Controller-->
+        <scene sceneID="B2D-Oz-OQA">
+            <objects>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="gdt-L5-G8F" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+                <viewController storyboardIdentifier="after" useStoryboardIdentifierAsRestorationIdentifier="YES" id="UKD-8Q-CC4" customClass="PageContentViewController" customModule="ReusablePagingView" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="MBB-k8-cNG">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="eYF-p1-KfS">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="GLe-7z-wYa"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="GLe-7z-wYa" firstAttribute="bottom" secondItem="eYF-p1-KfS" secondAttribute="bottom" id="U6U-LZ-hAP"/>
+                            <constraint firstItem="eYF-p1-KfS" firstAttribute="top" secondItem="GLe-7z-wYa" secondAttribute="top" id="fzw-gL-Ven"/>
+                            <constraint firstItem="GLe-7z-wYa" firstAttribute="trailing" secondItem="eYF-p1-KfS" secondAttribute="trailing" id="yaJ-bN-PZb"/>
+                            <constraint firstItem="eYF-p1-KfS" firstAttribute="leading" secondItem="GLe-7z-wYa" secondAttribute="leading" id="yhg-TM-wjP"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="eYF-p1-KfS" id="5Tg-aK-RNE"/>
+                    </connections>
+                </viewController>
+            </objects>
+            <point key="canvasLocation" x="709" y="733"/>
+        </scene>
+        <!--Page Content View Controller-->
+        <scene sceneID="aea-KZ-7Ij">
+            <objects>
+                <viewController storyboardIdentifier="before" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Kjl-lf-TyD" customClass="PageContentViewController" customModule="ReusablePagingView" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="PKb-cW-iCL">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="9n5-ev-4OS">
+                                <rect key="frame" x="0.0" y="44" width="414" height="818"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="6aI-hr-mMC"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstItem="6aI-hr-mMC" firstAttribute="trailing" secondItem="9n5-ev-4OS" secondAttribute="trailing" id="QTE-fg-u2C"/>
+                            <constraint firstItem="9n5-ev-4OS" firstAttribute="leading" secondItem="6aI-hr-mMC" secondAttribute="leading" id="Vak-F2-MId"/>
+                            <constraint firstItem="9n5-ev-4OS" firstAttribute="top" secondItem="6aI-hr-mMC" secondAttribute="top" id="Wsf-nS-bdc"/>
+                            <constraint firstItem="6aI-hr-mMC" firstAttribute="bottom" secondItem="9n5-ev-4OS" secondAttribute="bottom" id="hUn-ua-D1z"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="imageView" destination="9n5-ev-4OS" id="ftI-Lc-S25"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="XJF-rm-v0V" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="709" y="-575"/>
         </scene>
     </scenes>
     <resources>

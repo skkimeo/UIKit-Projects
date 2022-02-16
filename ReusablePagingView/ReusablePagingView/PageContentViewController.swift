@@ -19,5 +19,6 @@ class PageContentViewController: UIViewController {
         super.viewDidLoad()
         
         self.imageView.backgroundColor = color
+        print(self.hash)
     }
 }

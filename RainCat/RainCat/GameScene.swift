@@ -14,7 +14,7 @@ class GameScene: SKScene {
 
     private var lastUpdateTime: TimeInterval = 0
     private var currentRainDropSpawnTime: TimeInterval = 0
-    private var rainDropSpawnRate: TimeInterval = 0.5
+    private var rainDropSpawnRate: TimeInterval = 0.01
     private let random = GKARC4RandomSource()
     
     private let umbrella = UmbrellaSprite.newInstance()
@@ -29,15 +29,17 @@ class GameScene: SKScene {
     
     /// required to point the cat in the right direction
     private var food: FoodSprite!
+    
+    private var spawnEnabled = true
 
     override func sceneDidLoad() {
         
         self.lastUpdateTime = 0
         
         configureWorldFrame()
-        configureFloorNode()
+//        configureFloorNode()
         configureUmbrella()
-        configureBackground()
+//        configureBackground()
         spawnCat()
         spawnFood()
 //        for _ in 0...5 {
@@ -47,23 +49,38 @@ class GameScene: SKScene {
     
     /// spawns rain drops at random positions
     private func spawnRainDrop() {
-        let rainDrop = SKSpriteNode(texture: rainDropTexture).then {
-            /// add volume-based physics body to enable drop downs caused by gravity
-            $0.physicsBody = SKPhysicsBody(rectangleOf: CGSize(
-                width: $0.frame.width,
-                height: $0.frame.height
-            ))
-            /// physics body that outline the texutre, abondoned for asethetic reasons
-//            $0.physicsBody = SKPhysicsBody(texture: rainDropTexture, size: $0.size)
-            
-            let randomPosition = abs(CGFloat(random.nextInt())
-                                        .truncatingRemainder(dividingBy: self.size.width))
-            $0.position = CGPoint(x: randomPosition, y: self.size.height)
+        let boxSize: CGFloat = 15
+        let rainDrop = SKShapeNode(rectOf: CGSize(width: boxSize, height: boxSize)).then {
+            let scale: CGFloat = 1.1
+            $0.fillColor = [SKColor.systemPink, .systemTeal, .systemYellow, .systemPurple, .systemGreen].randomElement()!
+            $0.strokeColor = .systemOrange
+            $0.physicsBody = SKPhysicsBody(texture: rainDropTexture, size: CGSize(width: boxSize * scale, height: boxSize * scale))
+//            $0.physicsBody = SKPhysicsBody(rectangleOf: CGSize(width: 20 * scale, height: 20 * scale))
+            $0.position = CGPoint(x: self.frame.midX, y: self.size.height)
             $0.physicsBody?.categoryBitMask = RainDropCategory
             $0.physicsBody?.contactTestBitMask = WorldFrameCategory
             $0.physicsBody?.density = 0.5
-            $0.zPosition = 2
+            $0.zPosition = [2, 3, 4].randomElement() ?? 2
+
         }
+//        let rainDrop = SKSpriteNode(texture: rainDropTexture).then {
+//            /// add volume-based physics body to enable drop downs caused by gravity
+////            $0.physicsBody = SKPhysicsBody(rectangleOf: CGSize(
+////                width: $0.frame.width,
+////                height: $0.frame.height
+////            ))
+//            /// physics body that outline the texutre, abondoned for asethetic reasons
+//            let scale:CGFloat = 0.65
+//            $0.physicsBody = SKPhysicsBody(texture: rainDropTexture, size: CGSize(width: $0.size.width * scale, height: $0.size.height * scale))
+//
+//            let randomPosition = abs(CGFloat(random.nextInt())
+//                                        .truncatingRemainder(dividingBy: self.size.width))
+//            $0.position = CGPoint(x: self.frame.midX, y: self.size.height)
+//            $0.physicsBody?.categoryBitMask = RainDropCategory
+//            $0.physicsBody?.contactTestBitMask = WorldFrameCategory
+//            $0.physicsBody?.density = 0.5
+//            $0.zPosition = [2, 3, 4].randomElement() ?? 2
+//        }
         self.addChild(rainDrop)
     }
     
@@ -79,7 +96,7 @@ class GameScene: SKScene {
             $0.position = CGPoint(x: self.umbrella.position.x, y: self.umbrella.position.y)
         }
         
-        self.addChild(self.cat)
+//        self.addChild(self.cat)
     }
     
     private func spawnFood() {
@@ -97,7 +114,7 @@ class GameScene: SKScene {
         self.food = FoodSprite.newInstance().then {
             $0.position = CGPoint(x: randomPosition, y: self.size.height)
         }
-        self.addChild(food)
+//        self.addChild(food)
     }
     
     private func configureFloorNode() {
@@ -118,18 +135,19 @@ class GameScene: SKScene {
     private func configureUmbrella() {
         self.umbrella.updatePosition(point: CGPoint(x: self.frame.midX, y: self.frame.midY))
         self.umbrella.zPosition = 1
-        self.addChild(umbrella)
+//        self.addChild(umbrella)
     }
     
     /// created to remove node(e.g. raindrops) that bounce off screen
     /// we need to manually remove the node from the parent
     /// and  also clear the physics body to prevent the scene holding onto it to update during the render cycle
     private func configureWorldFrame() {
+        let scale: CGFloat = 0.7
         let worldFrame = self.frame.with {
-            $0.origin.x -= 100
-            $0.origin.y -= 100
+            $0.origin.x = self.frame.midX - self.frame.size.width * scale / 2
+            $0.origin.y += 150
             $0.size.height += 200
-            $0.size.width += 200
+            $0.size.width *= scale
         }
         /// using this init creates an empty rectangle that allows collisions only at the edges of the frame
         self.physicsBody = SKPhysicsBody(edgeLoopFrom: worldFrame)
@@ -150,6 +168,7 @@ class GameScene: SKScene {
         guard let point = touches.first?.location(in: self)
         else { return }
         
+        self.spawnEnabled.toggle()
         self.umbrella.setDestination(destination: point)
     }
 
@@ -177,11 +196,11 @@ class GameScene: SKScene {
         /// Update the Spawn Timer
         self.currentRainDropSpawnTime += dt
         
-        if self.currentRainDropSpawnTime > self.rainDropSpawnRate {
+        if self.spawnEnabled, self.currentRainDropSpawnTime > self.rainDropSpawnRate {
             self.currentRainDropSpawnTime = 0
             spawnRainDrop()
         }
-        
+
         self.umbrella.update(deltaTime: dt)
         self.cat.update(deltaTime: dt, foodLocation: self.food.position)
     }
@@ -195,9 +214,9 @@ extension GameScene: SKPhysicsContactDelegate {
     func didBegin(_ contact: SKPhysicsContact) {
         /// removes the collision bit mask of the raindrop to block further collision
         if contact.bodyA.categoryBitMask == RainDropCategory {
-            contact.bodyA.node?.physicsBody?.collisionBitMask = 0
+//            contact.bodyA.node?.physicsBody?.collisionBitMask = 0
         } else if contact.bodyB.categoryBitMask == RainDropCategory {
-            contact.bodyB.node?.physicsBody?.collisionBitMask = 0
+//            contact.bodyB.node?.physicsBody?.collisionBitMask = 0
         }
 
         if contact.bodyA.categoryBitMask == FoodCategory || contact.bodyB.categoryBitMask == FoodCategory {
@@ -213,15 +232,15 @@ extension GameScene: SKPhysicsContactDelegate {
         }
         
         /// cull the nodes
-        if contact.bodyA.categoryBitMask == WorldFrameCategory {
-            contact.bodyB.node?.removeFromParent()
-            contact.bodyB.node?.physicsBody = nil
-            contact.bodyB.node?.removeAllActions()
-        } else if contact.bodyB.categoryBitMask == WorldFrameCategory {
-            contact.bodyA.node?.removeFromParent()
-            contact.bodyA.node?.physicsBody = nil
-            contact.bodyA.node?.removeAllActions()
-        }
+//        if contact.bodyA.categoryBitMask == WorldFrameCategory {
+//            contact.bodyB.node?.removeFromParent()
+//            contact.bodyB.node?.physicsBody = nil
+//            contact.bodyB.node?.removeAllActions()
+//        } else if contact.bodyB.categoryBitMask == WorldFrameCategory {
+//            contact.bodyA.node?.removeFromParent()
+//            contact.bodyA.node?.physicsBody = nil
+//            contact.bodyA.node?.removeAllActions()
+//        }
     }
     
     /// look for a physics body that is not the cat

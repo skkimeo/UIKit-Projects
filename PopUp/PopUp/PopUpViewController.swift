@@ -32,7 +32,7 @@ class PopUpViewController: UIViewController {
         view.axis = .vertical
         view.spacing = 100
         view.alignment = .center
-        
+        view.backgroundColor = .systemTeal
         return view
     }()
     
@@ -105,6 +105,7 @@ class PopUpViewController: UIViewController {
         setupViews()
         addSubviews()
         makeConstraints()
+        
     }
     
     override func viewWillAppear(_ animated: Bool) {
@@ -128,7 +129,7 @@ class PopUpViewController: UIViewController {
         super.viewWillDisappear(animated)
         
         UIView.animate(withDuration: 0.3, delay: 0.0, options: .curveEaseIn) {
-            [weak self] in
+//            [weak self] in
 //            self?.containerView.alpha = 0
 //            self?.containerView.transform = .identity
 //            self?.containerView.isHidden = true
@@ -137,13 +138,22 @@ class PopUpViewController: UIViewController {
     }
     
     private func setupViews() {
+        let tap = UITapGestureRecognizer(target: self, action: #selector(backgroundDidTap(_:)))
+        view.addGestureRecognizer(tap)
         view.addSubview(containerView)
         containerView.addSubview(containerStackView)
+        let tap2 = UITapGestureRecognizer(target: self, action: nil)
+        containerView.addGestureRecognizer(tap2)
         view.backgroundColor = .black.withAlphaComponent(0.2)
+//        containerView.backgroundColor = .yellow
+    }
+    
+    @objc private func backgroundDidTap(_ sender: UITapGestureRecognizer) {
+        self.dismiss(animated: false, completion: nil)
     }
     
     private func addSubviews() {
-        view.addSubview(containerView)
+//        view.addSubview(containerView)
         
         if let contentView = contentView {
             containerStackView.addSubview(contentView)

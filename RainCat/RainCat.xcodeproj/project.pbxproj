@@ -16,6 +16,8 @@
 		A44E8FA427D1BA6A0053AC57 /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = A44E8FA327D1BA6A0053AC57 /* Then */; };
 		A44E8FA827D320280053AC57 /* UmbrellaSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44E8FA727D320280053AC57 /* UmbrellaSprite.swift */; };
 		A44E8FAA27D350160053AC57 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44E8FA927D350160053AC57 /* Constants.swift */; };
+		A44E8FAC27D36DF90053AC57 /* CatSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44E8FAB27D36DF90053AC57 /* CatSprite.swift */; };
+		A44E8FAE27D3936A0053AC57 /* FoodSprite.swift in Sources */ = {isa = PBXBuildFile; fileRef = A44E8FAD27D3936A0053AC57 /* FoodSprite.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,8 @@
 		A44E8F9B27D1B2350053AC57 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		A44E8FA727D320280053AC57 /* UmbrellaSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UmbrellaSprite.swift; sourceTree = "<group>"; };
 		A44E8FA927D350160053AC57 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
+		A44E8FAB27D36DF90053AC57 /* CatSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CatSprite.swift; sourceTree = "<group>"; };
+		A44E8FAD27D3936A0053AC57 /* FoodSprite.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FoodSprite.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -76,7 +80,9 @@
 		A44E8FA627D320140053AC57 /* Sprites */ = {
 			isa = PBXGroup;
 			children = (
+				A44E8FAD27D3936A0053AC57 /* FoodSprite.swift */,
 				A44E8FA727D320280053AC57 /* UmbrellaSprite.swift */,
+				A44E8FAB27D36DF90053AC57 /* CatSprite.swift */,
 			);
 			path = Sprites;
 			sourceTree = "<group>";
@@ -161,6 +167,8 @@
 				A44E8FAA27D350160053AC57 /* Constants.swift in Sources */,
 				A44E8F9227D1B2340053AC57 /* GameScene.swift in Sources */,
 				A44E8F9427D1B2340053AC57 /* GameViewController.swift in Sources */,
+				A44E8FAE27D3936A0053AC57 /* FoodSprite.swift in Sources */,
+				A44E8FAC27D36DF90053AC57 /* CatSprite.swift in Sources */,
 				A44E8FA827D320280053AC57 /* UmbrellaSprite.swift in Sources */,
 				A44E8F8C27D1B2340053AC57 /* AppDelegate.swift in Sources */,
 			);

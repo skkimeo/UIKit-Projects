@@ -18,28 +18,81 @@ class GameScene: SKScene {
     private let random = GKARC4RandomSource()
     
     private let umbrella = UmbrellaSprite.newInstance()
+    /// reusable reference to the raindrop texture
+    /// adding an image atlas for further optimization
+    private let rainDropTexture = SKTexture(imageNamed: "rain_drop")
+    
+    private var cat: CatSprite!
+    
+    /// acts as a margin to prevent the food being spawned near the edges
+    private let foodEdgeMargin: CGFloat = 75.0
 
     override func sceneDidLoad() {
         
         self.lastUpdateTime = 0
         
-        let worldFrame = self.frame.with {
-            $0.origin.x -= 100
-            $0.origin.y -= 100
-            $0.size.height += 200
-            $0.size.width += 200
+        configureWorldFrame()
+        configureFloorNode()
+        configureUmbrella()
+        configureBackground()
+        spawnCat()
+        spawnFood()
+//        for _ in 0...5 {
+//            spawnRainDrop()
+//        }
+    }
+    
+    /// spawns rain drops at random positions
+    private func spawnRainDrop() {
+        let rainDrop = SKSpriteNode(texture: rainDropTexture).then {
+            /// add volume-based physics body to enable drop downs caused by gravity
+            $0.physicsBody = SKPhysicsBody(rectangleOf: CGSize(
+                width: $0.frame.width,
+                height: $0.frame.height
+            ))
+            /// physics body that outline the texutre, abondoned for asethetic reasons
+//            $0.physicsBody = SKPhysicsBody(texture: rainDropTexture, size: $0.size)
+            
+            let randomPosition = abs(CGFloat(random.nextInt())
+                                        .truncatingRemainder(dividingBy: self.size.width))
+            $0.position = CGPoint(x: randomPosition, y: self.size.height)
+            $0.physicsBody?.categoryBitMask = RainDropCategory
+            $0.physicsBody?.contactTestBitMask = WorldFrameCategory
+            $0.zPosition = 2
         }
-        /// created to remove node(e.g. raindrops) that bounce off screen
-        /// we need to manually remove the node from the parent
-        /// and  also clear the physics body to prevent the scene holding onto it to update during the render cycle
-        /// using this init creates an empty rectangle that allows collisions only at the edges of the frame
-        self.physicsBody = SKPhysicsBody(edgeLoopFrom: worldFrame)
-        self.physicsWorld.contactDelegate = self
-        self.physicsBody?.categoryBitMask = WorldFrameCategory
+        self.addChild(rainDrop)
+    }
+    
+    /// spawns the cat, implemented as a separate method for reuse
+    private func spawnCat() {
+        if let currentCat = self.cat, self.children.contains(currentCat) {
+            currentCat.removeFromParent()
+            currentCat.removeAllActions()
+            currentCat.physicsBody = nil
+        }
         
+        self.cat = CatSprite.newInstance().then {
+            $0.position = CGPoint(x: self.umbrella.position.x, y: self.umbrella.position.y)
+        }
+        
+        self.addChild(self.cat)
+    }
+    
+    private func spawnFood() {
+        var randomPosition = CGFloat(self.random.nextInt())
+        randomPosition = randomPosition.truncatingRemainder(dividingBy: self.size.width - foodEdgeMargin * 2)
+        randomPosition = CGFloat(abs(randomPosition))
+        randomPosition += foodEdgeMargin
+        
+        let food = FoodSprite.newInstance().then {
+            $0.position = CGPoint(x: randomPosition, y: self.size.height)
+        }
+        self.addChild(food)
+    }
+    
+    private func configureFloorNode() {
         let floorNode = SKShapeNode(rectOf: CGSize(width: self.size.width, height: 5)).then {
             $0.position = CGPoint(x: self.size.width / 2, y: 50)
-            $0.fillColor = SKColor.systemYellow
             /// add an edge-based body to keep it fixed in postition instead of being effected by gravity
             $0.physicsBody = SKPhysicsBody(
                 edgeFrom: CGPoint(x: -self.size.width / 2, y: 0),
@@ -50,30 +103,37 @@ class GameScene: SKScene {
             $0.physicsBody?.restitution = 0.3
         }
         self.addChild(floorNode)
-        
-        self.umbrella.updatePosition(point: CGPoint(x: self.frame.midX, y: self.frame.midY))
-        self.addChild(umbrella)
-//
-//        for _ in 0...5 {
-//            spawnRainDrop()
-//        }
     }
     
-    /// spawns rain drops at random positions
-    private func spawnRainDrop() {
-        let rainDrop = SKShapeNode(rectOf: CGSize(width: 20, height: 20)).then {
-            $0.fillColor = .systemBlue
-            /// add volumen based physics body to enable drop downs caused by gravity
-            $0.physicsBody = SKPhysicsBody(rectangleOf: CGSize(
-                width: $0.frame.width,
-                height: $0.frame.height
-            ))
-            let randomPosition = abs(CGFloat(random.nextInt()).truncatingRemainder(dividingBy: self.size.width))
-            $0.position = CGPoint(x: randomPosition, y: self.size.height)
-            $0.physicsBody?.categoryBitMask = RainDropCategory
-            $0.physicsBody?.contactTestBitMask = WorldFrameCategory
+    private func configureUmbrella() {
+        self.umbrella.updatePosition(point: CGPoint(x: self.frame.midX, y: self.frame.midY))
+        self.umbrella.zPosition = 1
+        self.addChild(umbrella)
+    }
+    
+    /// created to remove node(e.g. raindrops) that bounce off screen
+    /// we need to manually remove the node from the parent
+    /// and  also clear the physics body to prevent the scene holding onto it to update during the render cycle
+    private func configureWorldFrame() {
+        let worldFrame = self.frame.with {
+            $0.origin.x -= 100
+            $0.origin.y -= 100
+            $0.size.height += 200
+            $0.size.width += 200
         }
-        self.addChild(rainDrop)
+        /// using this init creates an empty rectangle that allows collisions only at the edges of the frame
+        self.physicsBody = SKPhysicsBody(edgeLoopFrom: worldFrame)
+        self.physicsWorld.contactDelegate = self
+        self.physicsBody?.categoryBitMask = WorldFrameCategory
+    }
+    
+    private func configureBackground() {
+        let background = SKSpriteNode(imageNamed: "background").then {
+            $0.position = CGPoint(x: self.frame.midX, y: self.frame.midY)
+            $0.zPosition = 0
+            $0.size = CGSize(width: frame.width, height: frame.height)
+        }
+        self.addChild(background)
     }
 
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
@@ -120,6 +180,7 @@ class GameScene: SKScene {
 // MARK: - SKPhysicsContactDelegate
 
 extension GameScene: SKPhysicsContactDelegate {
+    
     func didBegin(_ contact: SKPhysicsContact) {
         /// removes the collision bit mask of the raindrop to block further collision
         if contact.bodyA.categoryBitMask == RainDropCategory {
@@ -128,6 +189,18 @@ extension GameScene: SKPhysicsContactDelegate {
             contact.bodyB.node?.physicsBody?.collisionBitMask = 0
         }
         
+        if contact.bodyA.categoryBitMask == CatCategory || contact.bodyB.categoryBitMask == CatCategory {
+            self.handleCatCollision(contact: contact)
+            
+            return
+        }
+        
+        if contact.bodyA.categoryBitMask == FoodCategory || contact.bodyB.categoryBitMask == FoodCategory {
+            self.handleFoodHit(contact: contact)
+            
+            return
+        }
+
         /// cull the nodes
         if contact.bodyA.categoryBitMask == WorldFrameCategory {
             contact.bodyB.node?.removeFromParent()
@@ -137,6 +210,53 @@ extension GameScene: SKPhysicsContactDelegate {
             contact.bodyA.node?.removeFromParent()
             contact.bodyA.node?.physicsBody = nil
             contact.bodyA.node?.removeAllActions()
+        }
+    }
+    
+    /// look for a physics body that is not the cat
+    fileprivate func handleCatCollision(contact: SKPhysicsContact) {
+        var otherBody: SKPhysicsBody
+        
+        if contact.bodyA.categoryBitMask == CatCategory {
+            otherBody = contact.bodyB
+        } else {
+            otherBody = contact.bodyA
+        }
+        
+        switch otherBody.categoryBitMask {
+        case RainDropCategory:
+            print("rain hit the cat")
+        case WorldFrameCategory:
+            spawnCat()
+        default:
+            print("Something hit the cat")
+        }
+    }
+    
+    private func handleFoodHit(contact: SKPhysicsContact) {
+        var otherBody: SKPhysicsBody
+        var foodBody: SKPhysicsBody
+        
+        if contact.bodyA.categoryBitMask == FoodCategory {
+            otherBody = contact.bodyB
+            foodBody = contact.bodyA
+        } else {
+            otherBody = contact.bodyA
+            foodBody = contact.bodyB
+        }
+        
+        switch otherBody.categoryBitMask {
+        case CatCategory:
+            // TODO: incre,ent points
+            print("fed cat")
+            fallthrough
+        case WorldFrameCategory:
+            foodBody.node?.removeFromParent()
+            foodBody.node?.physicsBody = nil
+            
+            spawnFood()
+        default:
+            print("sth else touched the food")
         }
     }
 }

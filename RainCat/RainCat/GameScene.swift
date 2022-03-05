@@ -26,6 +26,9 @@ class GameScene: SKScene {
     
     /// acts as a margin to prevent the food being spawned near the edges
     private let foodEdgeMargin: CGFloat = 75.0
+    
+    /// required to point the cat in the right direction
+    private var food: FoodSprite!
 
     override func sceneDidLoad() {
         
@@ -58,6 +61,7 @@ class GameScene: SKScene {
             $0.position = CGPoint(x: randomPosition, y: self.size.height)
             $0.physicsBody?.categoryBitMask = RainDropCategory
             $0.physicsBody?.contactTestBitMask = WorldFrameCategory
+            $0.physicsBody?.density = 0.5
             $0.zPosition = 2
         }
         self.addChild(rainDrop)
@@ -79,12 +83,18 @@ class GameScene: SKScene {
     }
     
     private func spawnFood() {
+        if let currentFood = food, self.children.contains(food) {
+            currentFood.removeFromParent()
+            currentFood.removeAllActions()
+            currentFood.physicsBody = nil
+        }
+        
         var randomPosition = CGFloat(self.random.nextInt())
         randomPosition = randomPosition.truncatingRemainder(dividingBy: self.size.width - foodEdgeMargin * 2)
         randomPosition = CGFloat(abs(randomPosition))
         randomPosition += foodEdgeMargin
         
-        let food = FoodSprite.newInstance().then {
+        self.food = FoodSprite.newInstance().then {
             $0.position = CGPoint(x: randomPosition, y: self.size.height)
         }
         self.addChild(food)
@@ -173,6 +183,7 @@ class GameScene: SKScene {
         }
         
         self.umbrella.update(deltaTime: dt)
+        self.cat.update(deltaTime: dt, foodLocation: self.food.position)
     }
 }
 
@@ -188,6 +199,12 @@ extension GameScene: SKPhysicsContactDelegate {
         } else if contact.bodyB.categoryBitMask == RainDropCategory {
             contact.bodyB.node?.physicsBody?.collisionBitMask = 0
         }
+
+        if contact.bodyA.categoryBitMask == FoodCategory || contact.bodyB.categoryBitMask == FoodCategory {
+            self.handleFoodHit(contact: contact)
+            
+            return
+        }
         
         if contact.bodyA.categoryBitMask == CatCategory || contact.bodyB.categoryBitMask == CatCategory {
             self.handleCatCollision(contact: contact)
@@ -195,12 +212,6 @@ extension GameScene: SKPhysicsContactDelegate {
             return
         }
         
-        if contact.bodyA.categoryBitMask == FoodCategory || contact.bodyB.categoryBitMask == FoodCategory {
-            self.handleFoodHit(contact: contact)
-            
-            return
-        }
-
         /// cull the nodes
         if contact.bodyA.categoryBitMask == WorldFrameCategory {
             contact.bodyB.node?.removeFromParent()
@@ -225,7 +236,7 @@ extension GameScene: SKPhysicsContactDelegate {
         
         switch otherBody.categoryBitMask {
         case RainDropCategory:
-            print("rain hit the cat")
+            self.cat.hitByRain()
         case WorldFrameCategory:
             spawnCat()
         default:

@@ -52,13 +52,40 @@ class ViewController: UIViewController {
         
         animator.addBehavior(gravity)
         animator.addBehavior(collision)
+        
+        self.motion.startDeviceMotionUpdates(to: queue) { motion, error in
+            guard let motion = motion else { return }
+
+            let grav: CMAcceleration = motion.gravity
+            let x = CGFloat(grav.x)
+            let y = CGFloat(grav.y)
+            var p = CGPoint(x: x, y: y)
+
+            if let orientation = UIApplication.shared.windows.first(where: { $0.isKeyWindow })?.windowScene?.interfaceOrientation {
+                if orientation == .landscapeLeft {
+                    let t = p.x
+                    p.x = 0 - p.y
+                    p.y = t
+                } else if orientation == .landscapeRight {
+                    let t = p.x
+                    p.x = p.y
+                    p.y = 0 - t
+                } else if orientation == .portraitUpsideDown {
+                    p.x *= -1
+                    p.y *= -1
+                }
+            }
+
+            let v = CGVector(dx: p.x, dy: 0 - p.y)
+            self.gravity.gravityDirection = v
+        }
     }
     
     private func createItems() -> [UIView] {
         var items = [UIView]()
-        let scale: CGFloat = 0.3
+        let scale: CGFloat = 0.6
         var zIndex: CGFloat = 10
-        for _ in 1...300 {
+        for _ in 1..<1 {
             let imageView = UIImageView(image: UIImage(named: "rain_drop"))
 
 //            imageView.contentMode = .scaleToFill
@@ -82,7 +109,7 @@ class ViewController: UIViewController {
     }
     
     @objc func userDidTap(_ gestureRecognizer:  UITapGestureRecognizer) {
-        let scale = 0.2
+        let scale = 0.6
         let imageView = UIImageView(image: UIImage(named: "rain_drop"))
 
 //            imageView.contentMode = .scaleToFill

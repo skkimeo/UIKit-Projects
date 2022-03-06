@@ -8,20 +8,20 @@
 import UIKit
 
 class PageViewController: UIPageViewController {
-    
+
     lazy var pages: [UIViewController] = {
         [self.pageInstance(name: "FirstVC"),
          self.pageInstance(name: "SecondVC"),
          self.pageInstance(name: "ThirdVC")]
     }()
-    
+
     private func pageInstance(name: String) -> UIViewController {
         UIStoryboard(name: "Main", bundle: nil).instantiateViewController(withIdentifier: name)
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.dataSource = self
         self.delegate = self
 
@@ -32,20 +32,20 @@ class PageViewController: UIPageViewController {
                                completion: nil)
         }
     }
-    
+
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        
+
         for view in self.view.subviews {
             if view is UIScrollView {
                 view.frame = UIScreen.main.bounds
             }
         }
     }
-    
+
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
-        
+
         // Dispose of any resources that can be recreatd
     }
 
@@ -62,44 +62,44 @@ class PageViewController: UIPageViewController {
 }
 
 extension PageViewController: UIPageViewControllerDataSource {
-    
+
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerBefore viewController: UIViewController) -> UIViewController? {
-        
+
         guard let pageIndex = pages.firstIndex(of: viewController) else {
             return nil
         }
-        
+
         let previousIndex = pageIndex - 1
-        
+
         // fisrt index or invalid index
         guard previousIndex >= 0,
                 pages.count > previousIndex
         else { return nil }
-        
+
         return pages[previousIndex]
-        
+
     }
-    
+
     func pageViewController(_ pageViewController: UIPageViewController, viewControllerAfter viewController: UIViewController) -> UIViewController? {
-        
+
         guard let pageIndex = pages.firstIndex(of: viewController) else {
             return nil
         }
-        
+
         let nextIndex = pageIndex + 1
-        
+
         // last index or invalid index
         guard nextIndex < pages.count,
               nextIndex >= 0
         else { return nil }
-        
+
         return pages[nextIndex]
     }
-    
+
     public func presentationCount(for pageViewController: UIPageViewController) -> Int {
         pages.count
     }
-    
+
     public func presentationIndex(for pageViewController: UIPageViewController) -> Int {
         guard let firstPage = viewControllers?.first,
               let firstPageIndex = pages.firstIndex(of: firstPage)
@@ -109,5 +109,5 @@ extension PageViewController: UIPageViewControllerDataSource {
 }
 
 extension PageViewController: UIPageViewControllerDelegate {
-    
+
 }

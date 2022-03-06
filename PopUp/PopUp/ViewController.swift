@@ -8,10 +8,10 @@
 import UIKit
 
 class ViewController: UIViewController {
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         view.backgroundColor = .orange
         let tapGestureRecognizer = UITapGestureRecognizer(
             target: self,
@@ -19,7 +19,7 @@ class ViewController: UIViewController {
         )
         self.view.addGestureRecognizer(tapGestureRecognizer)
     }
-    
+
     @objc private func viewDidTap(_ sender: UITapGestureRecognizer) {
         if sender.state == .ended {
             showPopup(title: "제목", message: "메시지") {
@@ -28,7 +28,7 @@ class ViewController: UIViewController {
                 }
             }
         }
-        
+
     }
 }
 
@@ -47,7 +47,7 @@ extension UIViewController {
             messageText: message,
             attributedMessageText: attributedMessage
         )
-        
+
         showPopup(
             popupViewController: popupViewController,
             leftActionTitle: leftActionTitle,
@@ -56,7 +56,7 @@ extension UIViewController {
             rightActionCompletion: rightActionCompletion
         )
     }
-    
+
     func showPopup(
         contentView: UIView,
         leftActionTitle: String = "취소",
@@ -65,7 +65,7 @@ extension UIViewController {
         rightActionCompletion: (() -> Void)? = nil
     ) {
         let popupViewController = PopUpViewController(contentView: contentView)
-        
+
         showPopup(
             popupViewController: popupViewController,
             leftActionTitle: leftActionTitle,
@@ -74,7 +74,7 @@ extension UIViewController {
             rightActionCompletion: rightActionCompletion
         )
     }
-    
+
     private func showPopup(
         popupViewController: PopUpViewController,
         leftActionTitle: String,
@@ -87,7 +87,7 @@ extension UIViewController {
             titleColor: .systemGray,
             backgroundColor: .secondarySystemBackground) {
                 UIView.animate(withDuration: 0.5) {
-                    
+
                     self.view.window!.layer.add(CATransition().fadeTransition(), forKey: kCATransition)
                     popupViewController.dismiss(animated: false, completion: leftActionCompletion)
                 }

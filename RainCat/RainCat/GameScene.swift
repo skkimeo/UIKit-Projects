@@ -49,7 +49,7 @@ class GameScene: SKScene {
     
     /// spawns rain drops at random positions
     private func spawnRainDrop() {
-        let boxSize: CGFloat = 15
+        let boxSize: CGFloat = 10
         let rainDrop = SKShapeNode(rectOf: CGSize(width: boxSize, height: boxSize)).then {
             let scale: CGFloat = 1.1
             $0.fillColor = [SKColor.systemPink, .systemTeal, .systemYellow, .systemPurple, .systemGreen].randomElement()!
@@ -169,6 +169,8 @@ class GameScene: SKScene {
         else { return }
         
         self.spawnEnabled.toggle()
+        self.view?.isPaused.toggle()
+        self.view?.is
         self.umbrella.setDestination(destination: point)
     }
 

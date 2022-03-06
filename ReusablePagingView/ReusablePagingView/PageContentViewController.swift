@@ -10,14 +10,14 @@ import UIKit
 // resuable view
 class PageContentViewController: UIViewController {
     @IBOutlet weak var imageView: UIImageView!
-    
+
     var index: Int!
     var imageString: String!
     var color: UIColor!
-    
+
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+
         self.imageView.backgroundColor = color
         print(self.hash)
     }

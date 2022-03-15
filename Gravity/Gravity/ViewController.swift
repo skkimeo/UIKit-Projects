@@ -49,7 +49,7 @@ class ViewController: UIViewController {
         
         self.queue = OperationQueue.current
         self.animator = UIDynamicAnimator(referenceView: self.view)
-        self.gravity = UIGravityBehavior(items: [])
+        self.gravity = UIGravityBehavior(items: items)
         motion = CMMotionManager()
         
         animator.addBehavior(gravity)
@@ -93,24 +93,36 @@ class ViewController: UIViewController {
         var items = [UIView]()
         let scale: CGFloat = 0.9
         var zIndex: CGFloat = 10
-        for index in 1..<365 {
+        for index in 1..<1 {
             
             var numbers = [CGFloat]()
             
             for number in -100...100 {
                 numbers.append(CGFloat(number))
             }
-            let scale = 0.8
-            let imageView = UIImageView(image: UIImage(named: "greenNote"))
-            let myView = UIView(frame: CGRect(origin: imageView.frame.origin, size: CGSize(width: imageView.frame.width * scale, height: imageView.frame.height * scale)))
+            let scale = 0.5
+            let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 15, height: 15))
+            imageView.image = UIImage(named: "greenNote")
+            imageView.frame.origin = CGPoint(x: self.view.bounds.width / 2 - numbers.randomElement()!, y: 200 + CGFloat(index) * 0.7)
+            imageView.layer.zPosition = zIndex
+            zIndex += 1
+            self.view.insertSubview(imageView, belowSubview: front)
+//            imageView.backgroundColor = .systemBlue
+            items.append(imageView)
+            self.collision.addItem(imageView)
+//            let myView = UIView(frame: CGRect(origin: .zero, size: CGSize(width: imageView.frame.width * scale, height: imageView.frame.height * scale)))
+//            let myView = UIImageView(image: UIImage(named: "greenNote"))
     //            imageView.contentMode = .scaleToFill
-            myView.frame.origin = CGPoint(x: self.view.bounds.width / 2 - numbers.randomElement()!, y: 10 + CGFloat(index) * 0.7)
-            myView.addSubview(imageView)
-            items.append(myView)
-            self.view.insertSubview(myView, belowSubview: front)
-    //        imageView.layer.zPosition = zIndex
-            self.collision.addItem(myView)
-            self.gravity.addItem(imageView)
+//            myView.frame.origin = CGPoint(x: self.view.bounds.width / 2 - numbers.randomElement()!, y: 200 + CGFloat(index) * 0.7)
+//            myView.addSubview(imageView)
+//            myView.backgroundColor = .systemBlue
+//            items.append(myView)
+//            myView.layer.zPosition = zIndex
+//            zIndex += 1
+//            self.view.insertSubview(myView, belowSubview: front)
+//    //        imageView.layer.zPosition = zIndex
+//            self.collision.addItem(myView)
+//            self.gravity.addItem(imageView)
 //            let imageView = UIImageView(image: UIImage(named: "rain_drop"))
 //
 ////            imageView.contentMode = .scaleToFill
@@ -138,17 +150,36 @@ class ViewController: UIViewController {
     }
     
     @objc func userDidTap(_ gestureRecognizer:  UITapGestureRecognizer) {
-        let scale = 0.8
-        let imageView = UIImageView(image: UIImage(named: "greenNote"))
-        let myView = UIView(frame: CGRect(origin: imageView.frame.origin, size: CGSize(width: imageView.frame.width * scale, height: imageView.frame.height * scale)))
-//            imageView.contentMode = .scaleToFill
-        myView.frame.origin = CGPoint(x: self.view.bounds.width / 2 - [30, 0, -30].randomElement()!, y: 180)
-        myView.addSubview(imageView)
-        items.append(myView)
-        self.view.insertSubview(myView, belowSubview: front)
-//        imageView.layer.zPosition = zIndex
-        self.collision.addItem(myView)
-        self.gravity.addItem(myView)
+        var numbers = [CGFloat]()
+        
+        for number in -100...100 {
+            numbers.append(CGFloat(number))
+        }
+        var zIndex: CGFloat = 10
+        for index in 0..<100 {
+            let scale = 0.5
+            let imageView = UIImageView(frame: CGRect(x: 0, y: 0, width: 15, height: 15))
+            imageView.image = UIImage(named: "greenNote")
+            imageView.frame.origin = CGPoint(x: self.view.bounds.width / 2 - numbers.randomElement()!, y: 200 + CGFloat(index) * 0.7)
+            imageView.layer.zPosition = zIndex
+            zIndex += 1
+            self.view.insertSubview(imageView, belowSubview: front)
+            imageView.backgroundColor = .systemBlue
+            items.append(imageView)
+            self.collision.addItem(imageView)
+            self.gravity.addItem(imageView)
+        }
+//        let scale = 0.8
+//        let imageView = UIImageView(image: UIImage(named: "greenNote"))
+//        let myView = UIView(frame: CGRect(origin: imageView.frame.origin, size: CGSize(width: imageView.frame.width * scale, height: imageView.frame.height * scale)))
+////            imageView.contentMode = .scaleToFill
+//        myView.frame.origin = CGPoint(x: self.view.bounds.width / 2 - [30, 0, -30].randomElement()!, y: 180)
+//        myView.addSubview(imageView)
+//        items.append(myView)
+//        self.view.insertSubview(myView, belowSubview: front)
+////        imageView.layer.zPosition = zIndex
+//        self.collision.addItem(myView)
+//        self.gravity.addItem(myView)
 //        imageView.fr
 //        let myView = UIView()
 //        myView.frame.origin = CGPoint(x: self.view.bounds.width / 2 - [10, 0, -10].randomElement()!, y: 180)

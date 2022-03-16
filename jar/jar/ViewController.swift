@@ -184,9 +184,19 @@ class ViewController: UIViewController {
     
     private func configureGrid() {
 //        print("hi")
-        var grid = Grid(layout: .aspectRatio(1), frame: self.containerView.bounds)
+        
+//        var grid = Grid(layout: .aspectRatio(1), frame: self.containerView.bounds)
+//        grid.cellCount = 7
+        
+        var grid = Grid(
+            frame: self.containerView.bounds,
+            cellCount: 365,
+            aspectRatio: 1
+        )
+        
+        
 //        print(grid.cellSize)
-        grid.cellCount = 365
+//        grid.cellCount = 365
 //        print(grid.cellSize)
 //        print(grid.frame.size)
 //        print(grid.dimensions)
@@ -195,7 +205,7 @@ class ViewController: UIViewController {
 //        grid.frame.origin = CGPoint(x: -7, y: 0)
         for index in 0..<grid.cellCount{
             let view = UIView(frame: grid[index] ?? .zero).then {
-                $0.backgroundColor = [UIColor.systemBlue, .systemGreen, .systemYellow, .systemPurple, .systemPink].randomElement()!
+                $0.backgroundColor = [UIColor.systemBlue, .systemGreen, .systemYellow, .systemPurple, .systemPink].randomElement()!.withAlphaComponent(0.5)
                 $0.layer.zPosition = [3, 4, 5, 6, 7, 8, 9, 10].randomElement()!
 //                self.view.addSubview($0)
                 self.containerView.addSubview($0)
@@ -225,7 +235,10 @@ class ViewController: UIViewController {
 //        self.containerView.frame.size = CGSize(width: width-100, height: height)
         self.containerWidth.constant = width
         self.containerHeight.constant = height
+        
         let wantedSize = CGSize(width: width, height: height)
+        self.containerView.frame.size = wantedSize
+        grid.frame.size = wantedSize
         print("real size: \(containerView.frame.size)")
         print("wanted size: \(wantedSize)")
 //        self.configureAnimator()

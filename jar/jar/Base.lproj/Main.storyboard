@@ -17,7 +17,7 @@
                         <subviews>
                             <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="N7v-3i-GAr">
                                 <rect key="frame" x="58" y="201.66666666666663" width="259" height="409"/>
-                                <color key="backgroundColor" red="0.0" green="0.41488174392097266" blue="0.12699848716166179" alpha="0.19227892287234041" colorSpace="custom" customColorSpace="displayP3"/>
+                                <color key="backgroundColor" red="0.0" green="0.41488174389999999" blue="0.12699848720000001" alpha="0.19227892290000001" colorSpace="custom" customColorSpace="displayP3"/>
                                 <gestureRecognizers/>
                                 <constraints>
                                     <constraint firstAttribute="height" constant="409" id="NJ8-m8-nqT"/>
@@ -33,7 +33,9 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="containerHeight" destination="NJ8-m8-nqT" id="fMS-IH-FQi"/>
                         <outlet property="containerView" destination="N7v-3i-GAr" id="D8I-nH-h0V"/>
+                        <outlet property="containerWidth" destination="bcK-1s-paD" id="fR9-IP-0tp"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>

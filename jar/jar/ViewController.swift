@@ -14,6 +14,9 @@ class ViewController: UIViewController {
     /// 쪽지를 담고 물리엔진이 작용할 영역
     @IBOutlet weak var containerView: UIView!
     
+    @IBOutlet weak var containerWidth: NSLayoutConstraint!
+    @IBOutlet weak var containerHeight: NSLayoutConstraint!
+    
     /// 물리엔진과 관련 애니메이션을 관리
     private var animator: UIDynamicAnimator!
     
@@ -35,14 +38,15 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        self.configureAnimator()
-        self.configureGravity()
-        self.configureCollision()
+//        self.configureAnimator()
+//        self.configureGravity()
+//        self.configureCollision()
+        self.configureGrid()
         
-        for index in 0..<1{
-            let randomPosition = self.notePosisition()
-            self.spawnNote(at: CGPoint(x: randomPosition.x, y: 10))
-        }
+//        for index in 0..<1{
+//            let randomPosition = self.notePosisition()
+//            self.spawnNote(at: CGPoint(x: randomPosition.x, y: 10))
+//        }
         // Do any additional setup after loading the view.
 //        let behavior = UIDynamicItemBehavior(items: self.notes)
 //        behavior.elasticity = 0
@@ -131,7 +135,7 @@ class ViewController: UIViewController {
 //        let randomPosition = self.notePosisition()
 //        let height = self.containerView.frame.size.height
         tapCount += 1.5
-        for _ in 0..<20 {
+        for _ in 0..<1 {
             
         let randomPosition = self.notePosisition()
         let height = self.containerView.frame.size.height
@@ -177,6 +181,63 @@ class ViewController: UIViewController {
     }
     
     var contact = 0
+    
+    private func configureGrid() {
+//        print("hi")
+        var grid = Grid(layout: .aspectRatio(1), frame: self.containerView.bounds)
+//        print(grid.cellSize)
+        grid.cellCount = 365
+//        print(grid.cellSize)
+//        print(grid.frame.size)
+//        print(grid.dimensions)
+//        grid.cellCount = 25 * 15
+//        print(grid.frame.origin)
+//        grid.frame.origin = CGPoint(x: -7, y: 0)
+        for index in 0..<grid.cellCount{
+            let view = UIView(frame: grid[index] ?? .zero).then {
+                $0.backgroundColor = [UIColor.systemBlue, .systemGreen, .systemYellow, .systemPurple, .systemPink].randomElement()!
+                $0.layer.zPosition = [3, 4, 5, 6, 7, 8, 9, 10].randomElement()!
+//                self.view.addSubview($0)
+                self.containerView.addSubview($0)
+            }
+            
+            let scale: CGFloat = 1.5
+            let randomImage = ["green", "note", "pink", "purple", "yellow"].randomElement()!
+            let imageView = UIImageView(image: UIImage(named: randomImage)).then {
+                $0.frame.size = CGSize(
+                    width: view.frame.size.width * scale,
+                    height: view.frame.size.height * scale
+                )
+                let randomDegrees: CGFloat = 2 * .pi / [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36].randomElement()!
+                let randomScale: CGFloat = [0.8, 0.7, 0.9].randomElement()!
+                $0.transform = $0.transform.scaledBy(x: randomScale, y: randomScale)
+                $0.transform = $0.transform.rotated(by: randomDegrees)
+            }
+//            view.addSubview(imageView)
+            self.notes.append(view)
+        }
+//        grid.frame.origin = .zero
+        let width: CGFloat = grid.cellSize.width * CGFloat(grid.dimensions.columnCount)
+        let height: CGFloat = grid.cellSize.height * CGFloat(grid.dimensions.rowCount)
+        print(grid.frame.origin)
+        print(containerView.frame.origin)
+//        grid.frame.size = CGSize(width: width, height: height)
+//        self.containerView.frame.size = CGSize(width: width-100, height: height)
+        self.containerWidth.constant = width
+        self.containerHeight.constant = height
+        let wantedSize = CGSize(width: width, height: height)
+        print("real size: \(containerView.frame.size)")
+        print("wanted size: \(wantedSize)")
+//        self.configureAnimator()
+//        self.configureGravity()
+//        self.configureCollision()
+
+//        self.notes.forEach {
+//            self.gravity.addItem($0)
+//            self.collision.addItem($0)
+//        }
+        
+    }
 }
 
 

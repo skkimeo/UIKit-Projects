@@ -203,7 +203,7 @@ class ViewController: UIViewController {
 //        grid.cellCount = 25 * 15
 //        print(grid.frame.origin)
 //        grid.frame.origin = CGPoint(x: -7, y: 0)
-        for index in 0..<grid.cellCount{
+        for index in 0..<180 {
             let view = UIView(frame: grid[index] ?? .zero).then {
                 $0.backgroundColor = [UIColor.systemBlue, .systemGreen, .systemYellow, .systemPurple, .systemPink].randomElement()!.withAlphaComponent(0.5)
                 $0.layer.zPosition = [3, 4, 5, 6, 7, 8, 9, 10].randomElement()!
@@ -235,20 +235,21 @@ class ViewController: UIViewController {
 //        self.containerView.frame.size = CGSize(width: width-100, height: height)
         self.containerWidth.constant = width
         self.containerHeight.constant = height
-        
         let wantedSize = CGSize(width: width, height: height)
         self.containerView.frame.size = wantedSize
-        grid.frame.size = wantedSize
+        self.containerView.backgroundColor = .brown
+        grid.frame = self.containerView.frame
+        print(self.containerView.frame.origin)
         print("real size: \(containerView.frame.size)")
         print("wanted size: \(wantedSize)")
-//        self.configureAnimator()
-//        self.configureGravity()
-//        self.configureCollision()
+        self.configureAnimator()
+        self.configureGravity()
+        self.configureCollision()
 
-//        self.notes.forEach {
-//            self.gravity.addItem($0)
-//            self.collision.addItem($0)
-//        }
+        self.notes.forEach {
+            self.gravity.addItem($0)
+            self.collision.addItem($0)
+        }
         
     }
 }

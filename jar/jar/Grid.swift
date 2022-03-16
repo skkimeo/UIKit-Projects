@@ -93,7 +93,7 @@ struct Grid {
         /// 셀들이 실제로 그리드 내부 영역을 딱 맞게 채우지는 못하는 경우 가운데 정렬을 위해서 오프셋을 계산해 시작점을 옮겨줌
         print(offset)
         var origin = self.frame.origin
-        origin.x += offset.dx
+//        origin.x += offset.dx
         origin.y += (self.frame.maxY - cellSize.height)
 
         guard self.cellCount > 0
@@ -109,8 +109,9 @@ struct Grid {
             /// 이번 행에 더 이상 셀을 넣을 수 없는 경우 한 행 위로 위치를 옮김
 //            if round(origin.x) > round(frame.maxX - cellSize.width) {
 //                if origin.x > frame.maxX - cellSize.width {
-            if origin.x >= boundingSize.width + offset.dx {
-                origin.x = self.frame.origin.x + offset.dx
+            if origin.x >= boundingSize.width {
+                origin.x = self.frame.origin.x
+//                + offset.dx
                 origin.y -= cellSize.height
             }
         }

@@ -16,6 +16,8 @@
 		A425F83327EC46BB00A005AB /* rawContentData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A425F83227EC46BB00A005AB /* rawContentData.swift */; };
 		A425F83827EC4F0500A005AB /* CollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A425F83627EC4F0500A005AB /* CollectionViewCell.swift */; };
 		A425F83927EC4F0500A005AB /* CollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A425F83727EC4F0500A005AB /* CollectionViewCell.xib */; };
+		A425F88E27EC9E6500A005AB /* Then in Frameworks */ = {isa = PBXBuildFile; productRef = A425F88D27EC9E6500A005AB /* Then */; };
+		A425F89027ECB53C00A005AB /* TagCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A425F88F27ECB53C00A005AB /* TagCollectionViewFlowLayout.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +32,7 @@
 		A425F83227EC46BB00A005AB /* rawContentData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = rawContentData.swift; sourceTree = "<group>"; };
 		A425F83627EC4F0500A005AB /* CollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewCell.swift; sourceTree = "<group>"; };
 		A425F83727EC4F0500A005AB /* CollectionViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CollectionViewCell.xib; sourceTree = "<group>"; };
+		A425F88F27ECB53C00A005AB /* TagCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TagCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -37,6 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A425F88E27EC9E6500A005AB /* Then in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -46,6 +50,7 @@
 		A425F80E27EB711500A005AB = {
 			isa = PBXGroup;
 			children = (
+				A425F88F27ECB53C00A005AB /* TagCollectionViewFlowLayout.swift */,
 				A425F81927EB711500A005AB /* dynamic tableView */,
 				A425F81827EB711500A005AB /* Products */,
 			);
@@ -93,6 +98,9 @@
 			dependencies = (
 			);
 			name = DynamicCollectionView;
+			packageProductDependencies = (
+				A425F88D27EC9E6500A005AB /* Then */,
+			);
 			productName = "dynamic tableView";
 			productReference = A425F81727EB711500A005AB /* DynamicCollectionView.app */;
 			productType = "com.apple.product-type.application";
@@ -121,6 +129,9 @@
 				Base,
 			);
 			mainGroup = A425F80E27EB711500A005AB;
+			packageReferences = (
+				A425F88C27EC9E6500A005AB /* XCRemoteSwiftPackageReference "Then" */,
+			);
 			productRefGroup = A425F81827EB711500A005AB /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -152,6 +163,7 @@
 				A425F83827EC4F0500A005AB /* CollectionViewCell.swift in Sources */,
 				A425F81F27EB711500A005AB /* ViewController.swift in Sources */,
 				A425F83327EC46BB00A005AB /* rawContentData.swift in Sources */,
+				A425F89027ECB53C00A005AB /* TagCollectionViewFlowLayout.swift in Sources */,
 				A425F81B27EB711500A005AB /* AppDelegate.swift in Sources */,
 				A425F81D27EB711500A005AB /* SceneDelegate.swift in Sources */,
 			);
@@ -373,6 +385,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		A425F88C27EC9E6500A005AB /* XCRemoteSwiftPackageReference "Then" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/devxoul/Then";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		A425F88D27EC9E6500A005AB /* Then */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = A425F88C27EC9E6500A005AB /* XCRemoteSwiftPackageReference "Then" */;
+			productName = Then;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = A425F80F27EB711500A005AB /* Project object */;
 }

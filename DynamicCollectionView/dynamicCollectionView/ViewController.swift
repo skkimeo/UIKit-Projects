@@ -31,6 +31,7 @@ class ViewController: UIViewController {
     typealias DataSource = UICollectionViewDiffableDataSource<Int, Item>
     typealias Snapshot = NSDiffableDataSourceSnapshot<Int, Item>
     
+    var snapshot: Snapshot!
     
     @IBOutlet weak var collectionView: UICollectionView!
 
@@ -54,8 +55,13 @@ class ViewController: UIViewController {
 //        layout.sectionInset = UIEdgeInsets(top: 24, left: 24, bottom: 24, right: 24)
 
         self.collectionView.collectionViewLayout = layout
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
         
-        
+        print(#function)
+        dataSource.applySnapshotUsingReloadData(snapshot)
     }
 }
 
@@ -68,6 +74,7 @@ extension ViewController {
         snapshot.appendSections([.zero])
         snapshot.appendItems(self.content.map { Item(content: $0)} )
         
+        self.snapshot = snapshot
         dataSource.apply(snapshot, animatingDifferences: animatingDifferences)
     }
     
@@ -84,6 +91,18 @@ extension ViewController {
                 .randomElement()!
                 .withAlphaComponent(0.5)
             cell.firstWordLabel.text = item.content
+            
+            let isEven = indexPath.row % 2 == 0
+//            let duration: Double = isEven ? 2 : 4
+            let duration: Double = 3
+            let scale: CGFloat = isEven ? 0.9 : 1.1
+            let delay: Double = isEven ? 0: scale / 2
+            UIView.animate(
+                withDuration: duration,
+                delay: delay,
+                options: [.autoreverse, .repeat, .allowUserInteraction]) {
+                    cell.contentView.transform = cell.contentView.transform.scaledBy(x: scale, y: scale)
+                } 
         }
     }
     
@@ -128,11 +147,20 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
 
 extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        print(#function)
         guard let content = self.dataSource.itemIdentifier(for: indexPath)?.content
         else {
             collectionView.deselectItem(at: indexPath, animated: true)
             return
         }
+        
+        let detailViewController = UIViewController().then {
+            $0.view.backgroundColor = .systemTeal
+        }
+        
+        self.snapshot = self.dataSource.snapshot()
+        
+        self.navigationController?.pushViewController(detailViewController, animated: true)
         
     }
 }

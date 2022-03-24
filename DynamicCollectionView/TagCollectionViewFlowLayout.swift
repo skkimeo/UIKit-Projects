@@ -48,7 +48,7 @@ class TagCollectionViewLayout: UICollectionViewFlowLayout {
         grouped.values.forEach { attributes in
             let maxXs = attributes.map{ $0.frame.maxX }
             let diff = (contentMaxX - maxXs.max()!)
-            print(diff)
+            
             attributes.forEach { $0.frame.origin.x += diff / 2}
         }
         

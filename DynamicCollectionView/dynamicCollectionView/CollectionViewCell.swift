@@ -76,6 +76,8 @@ class TagCell: UICollectionViewCell {
         
         self.noteImageView.image = UIImage()
         self.firstWordLabel.text = nil
+        self.contentView.transform = self.transform
+        print(#function)
     }
     
     private func setUpViewHierarchy() {

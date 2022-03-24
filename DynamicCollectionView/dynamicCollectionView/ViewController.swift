@@ -47,8 +47,8 @@ class ViewController: UIViewController {
         self.configureDatasource()
         self.applyInitialSnapshot()
         
-//        let layout = TagCollectionViewLayout()
-        let layout = LeftAlignedCollectionViewFlowLayout()
+        let layout = TagCollectionViewLayout()
+//        let layout = LeftAlignedCollectionViewFlowLayout()
         layout.minimumLineSpacing = 10
         layout.minimumInteritemSpacing = 10
 //        layout.sectionInset = UIEdgeInsets(top: 24, left: 24, bottom: 24, right: 24)
@@ -75,7 +75,6 @@ extension ViewController {
     func createCellRegisteration() -> UICollectionView.CellRegistration<TagCell, Item> {
         
 //        let nib = UINib(nibName: "CollectionViewCell", bundle: nil)
-        
         return UICollectionView.CellRegistration<TagCell, Item> { cell, indexPath, item in
             
             cell.noteImageView.backgroundColor = [
@@ -84,11 +83,11 @@ extension ViewController {
                 .systemYellow]
                 .randomElement()!
                 .withAlphaComponent(0.5)
-//            cell.frame.size = CGSize(width: label.frame.width + 16, height: label.frame.height + 16)
             cell.firstWordLabel.text = item.content
         }
     }
     
+    /// 데이터 관리 
     func configureDatasource() {
         let registeration = self.createCellRegisteration()
         self.dataSource = DataSource(collectionView: self.collectionView) { collectionView, indexPath, item in
@@ -116,47 +115,16 @@ extension ViewController: UICollectionViewDelegateFlowLayout {
             $0.text = content
             $0.sizeToFit()
         }
-//        print(#function)
+        
         let labelSize = label.frame.size
+        /// 라벨 크기에 여백 추가해서 리턴
         return CGSize(width: labelSize.width + 16, height: labelSize.height + 16)
-//        return
     }
     
     func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
     }
 }
-
-class LeftAlignedCollectionViewFlowLayout: UICollectionViewFlowLayout {
-  override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
-    let attributes = super.layoutAttributesForElements(in: rect)
-    
-    var leftMargin = sectionInset.left
-    var maxY: CGFloat = -1.0
-    attributes?.forEach { layoutAttribute in
-      if layoutAttribute.representedElementCategory == .cell {
-        if layoutAttribute.frame.origin.y >= maxY {
-          leftMargin = sectionInset.left
-        }
-        layoutAttribute.frame.origin.x = leftMargin
-        leftMargin += layoutAttribute.frame.width + minimumInteritemSpacing
-        maxY = max(layoutAttribute.frame.maxY, maxY)
-      }
-    }
-    return attributes
-  }
-}
-//extension ViewController: UICollectionViewDataSource {
-//    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-//        self.content.count
-//    }
-//
-//    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
-//        <#code#>
-//    }
-//
-//
-//}
 
 extension ViewController: UICollectionViewDelegate {
     func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {

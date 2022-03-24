@@ -27,9 +27,10 @@ class TagCollectionViewLayout: UICollectionViewFlowLayout {
         
         guard let superAttributes = super.layoutAttributesForElements(in: rect),
               let attributes = NSArray(array: superAttributes, copyItems: true) as? [UICollectionViewLayoutAttributes]
+
         else { return [] }
         
-        let leftMargin = self.sectionInset.left
+        let leftMargin = attributes.first?.frame.origin.x ?? self.sectionInset.left
         
         for (index, value) in attributes.enumerated() {
             guard value.frame.origin.x != leftMargin,
@@ -39,6 +40,16 @@ class TagCollectionViewLayout: UICollectionViewFlowLayout {
             let previousCellmaxX = attributes[index - 1].frame.maxX
             
             value.frame.origin.x = previousCellmaxX + self.minimumLineSpacing
+        }
+        
+        let contentMaxX: CGFloat = collectionViewContentSize.width - leftMargin
+        let grouped = Dictionary(grouping: attributes, by: { $0.frame.minY })
+        
+        grouped.values.forEach { attributes in
+            let maxXs = attributes.map{ $0.frame.maxX }
+            let diff = (contentMaxX - maxXs.max()!)
+            print(diff)
+            attributes.forEach { $0.frame.origin.x += diff / 2}
         }
         
         return attributes

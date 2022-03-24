@@ -19,7 +19,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A425F81727EB711500A005AB /* dynamic tableView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "dynamic tableView.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A425F81727EB711500A005AB /* DynamicCollectionView.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = DynamicCollectionView.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		A425F81A27EB711500A005AB /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A425F81C27EB711500A005AB /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
 		A425F81E27EB711500A005AB /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -54,7 +54,7 @@
 		A425F81827EB711500A005AB /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				A425F81727EB711500A005AB /* dynamic tableView.app */,
+				A425F81727EB711500A005AB /* DynamicCollectionView.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -73,15 +73,16 @@
 				A425F82527EB711600A005AB /* LaunchScreen.storyboard */,
 				A425F82827EB711600A005AB /* Info.plist */,
 			);
-			path = "dynamic tableView";
+			name = "dynamic tableView";
+			path = dynamicCollectionView;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		A425F81627EB711500A005AB /* dynamic tableView */ = {
+		A425F81627EB711500A005AB /* DynamicCollectionView */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = A425F82B27EB711600A005AB /* Build configuration list for PBXNativeTarget "dynamic tableView" */;
+			buildConfigurationList = A425F82B27EB711600A005AB /* Build configuration list for PBXNativeTarget "DynamicCollectionView" */;
 			buildPhases = (
 				A425F81327EB711500A005AB /* Sources */,
 				A425F81427EB711500A005AB /* Frameworks */,
@@ -91,9 +92,9 @@
 			);
 			dependencies = (
 			);
-			name = "dynamic tableView";
+			name = DynamicCollectionView;
 			productName = "dynamic tableView";
-			productReference = A425F81727EB711500A005AB /* dynamic tableView.app */;
+			productReference = A425F81727EB711500A005AB /* DynamicCollectionView.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -111,7 +112,7 @@
 					};
 				};
 			};
-			buildConfigurationList = A425F81227EB711500A005AB /* Build configuration list for PBXProject "dynamic tableView" */;
+			buildConfigurationList = A425F81227EB711500A005AB /* Build configuration list for PBXProject "DynamicCollectionView" */;
 			compatibilityVersion = "Xcode 13.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -124,7 +125,7 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				A425F81627EB711500A005AB /* dynamic tableView */,
+				A425F81627EB711500A005AB /* DynamicCollectionView */,
 			);
 		};
 /* End PBXProject section */
@@ -303,7 +304,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = WA6PY6NL25;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "dynamic tableView/Info.plist";
+				INFOPLIST_FILE = DynamicCollectionView/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -331,7 +332,7 @@
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = WA6PY6NL25;
 				GENERATE_INFOPLIST_FILE = YES;
-				INFOPLIST_FILE = "dynamic tableView/Info.plist";
+				INFOPLIST_FILE = DynamicCollectionView/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -353,7 +354,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		A425F81227EB711500A005AB /* Build configuration list for PBXProject "dynamic tableView" */ = {
+		A425F81227EB711500A005AB /* Build configuration list for PBXProject "DynamicCollectionView" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A425F82927EB711600A005AB /* Debug */,
@@ -362,7 +363,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		A425F82B27EB711600A005AB /* Build configuration list for PBXNativeTarget "dynamic tableView" */ = {
+		A425F82B27EB711600A005AB /* Build configuration list for PBXNativeTarget "DynamicCollectionView" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				A425F82C27EB711600A005AB /* Debug */,

@@ -53,7 +53,6 @@ class ViewController: UIViewController {
         layout.minimumLineSpacing = 10
         layout.minimumInteritemSpacing = 10
 //        layout.sectionInset = UIEdgeInsets(top: 24, left: 24, bottom: 24, right: 24)
-
         self.collectionView.collectionViewLayout = layout
     }
     
@@ -62,6 +61,16 @@ class ViewController: UIViewController {
         
         print(#function)
         dataSource.applySnapshotUsingReloadData(snapshot)
+    }
+    
+    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+        if segue.identifier == "showNote" {
+            guard let carouselViewController = segue.destination as? CarouselViewController,
+                  let indexPath = sender as? IndexPath
+            else { return }
+            
+            carouselViewController.start = indexPath
+        }
     }
 }
 
@@ -87,7 +96,10 @@ extension ViewController {
             cell.noteImageView.backgroundColor = [
                 UIColor.systemBlue,
                 .systemGreen,
-                .systemYellow]
+                .systemYellow,
+                .systemPink.withAlphaComponent(0.1),
+                .systemPurple
+            ]
                 .randomElement()!
                 .withAlphaComponent(0.5)
             cell.firstWordLabel.text = item.content
@@ -97,11 +109,12 @@ extension ViewController {
             let duration: Double = 3
             let scale: CGFloat = isEven ? 0.9 : 1.1
             let delay: Double = isEven ? 0: scale / 2
+//            cell.contentView.transform = cell.contentView.transform.scaledBy(x: scale, y: scale)
+
             UIView.animate(
                 withDuration: duration,
                 delay: delay,
                 options: [.autoreverse, .repeat, .allowUserInteraction]) {
-                    cell.contentView.transform = cell.contentView.transform.scaledBy(x: scale, y: scale)
                 } 
         }
     }
@@ -154,13 +167,9 @@ extension ViewController: UICollectionViewDelegate {
             return
         }
         
-        let detailViewController = UIViewController().then {
-            $0.view.backgroundColor = .systemTeal
-        }
-        
         self.snapshot = self.dataSource.snapshot()
         
-        self.navigationController?.pushViewController(detailViewController, animated: true)
+        self.performSegue(withIdentifier: "showNote", sender: indexPath)
         
     }
 }

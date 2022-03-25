@@ -28,7 +28,7 @@ class TagCollectionViewLayout: UICollectionViewFlowLayout {
         guard let superAttributes = super.layoutAttributesForElements(in: rect),
               let attributes = NSArray(array: superAttributes, copyItems: true) as? [UICollectionViewLayoutAttributes]
 
-        else { return [] }
+        else { return nil }
         
         let leftMargin = attributes.first?.frame.origin.x ?? self.sectionInset.left
         

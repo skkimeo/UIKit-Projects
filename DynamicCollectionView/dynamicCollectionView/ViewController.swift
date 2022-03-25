@@ -170,6 +170,7 @@ extension ViewController: UICollectionViewDelegate {
         self.snapshot = self.dataSource.snapshot()
         
         self.performSegue(withIdentifier: "showNote", sender: indexPath)
+//        self.navigationController?.pushViewController(NewViewController(), animated: false)
         
     }
 }
